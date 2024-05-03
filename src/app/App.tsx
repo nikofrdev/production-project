@@ -1,18 +1,26 @@
 import "./styles/index.scss";
-import { Link } from "react-router-dom";
-import { useTheme } from "./providers";
 import { classNames } from "shared/lib/classNames/classNames";
+import { useTheme } from "./providers";
 import { AppRouter } from "./providers/router";
 import { Navbar } from "widjets/Navbar";
+import { Sidebar } from "widjets/Sidebar/ui";
+import { Suspense } from "react";
+import { useTranslation } from "react-i18next";
 
-export default function App() {
-  const { theme, toggleTheme } = useTheme();
+const App = () => {
+  const { theme } = useTheme();
 
   return (
     <div className={classNames("app", {}, [theme])}>
-      <Navbar />
-      <AppRouter />
-      <button onClick={toggleTheme}>TOGGLE</button>
+      <Suspense fallback="">
+        <Navbar />
+        <div className="content-page">
+          <Sidebar />
+          <AppRouter />
+        </div>
+      </Suspense>
     </div>
   );
-}
+};
+
+export default App;
